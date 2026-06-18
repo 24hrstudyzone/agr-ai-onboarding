@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AGR Partners — AI Onboarding Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #252015;
+  --bg-alt:   #2e2a18;
+  --bg-card:  #1e1b10;
+  --bg-light: #f0ece0;
+  --fg:       #ddd9c8;
+  --fg-2:     rgba(221,217,200,0.62);
+  --fg-3:     rgba(221,217,200,0.32);
+  --green:    #7ca045;
+  --green-dk: #62892e;
+  --green-lt: #c1cf80;
+  --green-dim: rgba(124,160,69,0.13);
+  --border:   rgba(221,217,200,0.1);
+  --border-md: rgba(221,217,200,0.2);
+  --accent:   #c1cf80;
+  --coral:    #c8524a;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.7;
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3, h4, .serif { font-family: 'Playfair Display', Georgia, serif; font-weight: 400; }
+h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 1.05; letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1; }
+h3 { font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.2; }
+h4 { font-size: 1.05rem; line-height: 1.3; }
+em { color: var(--green-lt); font-style: italic; }
+.mono {
+  font-family: 'JetBrains Mono', monospace; font-weight: 300;
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green-lt);
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace; font-weight: 300;
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--green); display: block; margin-bottom: 0.6rem;
+}
+.muted { color: var(--fg-2); }
+p { max-width: 66ch; }
+a { color: var(--green-lt); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* LAYOUT */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 5rem); }
+.section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+
+/* CORAL RULE */
+.coral-rule { width: 36px; height: 1px; background: var(--green); margin: 1rem 0; }
+
+/* HEADER */
+#site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(37,32,21,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 clamp(1.5rem, 5vw, 5rem);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 2rem;
+}
+.logo {
+  display: flex; align-items: center; gap: 0.9rem;
+  font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400;
+  letter-spacing: 0.06em; color: var(--fg); white-space: nowrap;
+}
+.logo-sub {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--green-lt);
+  display: block; margin-top: 1px;
+}
+nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+nav::-webkit-scrollbar { display: none; }
+nav a {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg-2); padding: 0.4rem 0.75rem;
+  white-space: nowrap; transition: color 0.2s; text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+nav a:hover { color: var(--fg); }
+nav a.active { color: var(--green-lt); border-bottom-color: var(--green); }
+
+/* HERO */
+#hero {
+  padding: clamp(4rem, 10vh, 8rem) 0 clamp(3rem, 7vh, 6rem);
+  border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.8rem; }
+.hero-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--border-md); }
+.hero-lead { font-size: 1.1rem; color: var(--fg-2); max-width: 58ch; line-height: 1.75; margin: 1.2rem 0 2.5rem; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border-md); color: var(--fg-2);
+}
+.tag.green { border-color: var(--green); color: var(--green-lt); background: var(--green-dim); }
+
+/* SECTION OPENER */
+.section-number {
+  font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 400; color: rgba(221,217,200,0.05); line-height: 1;
+  position: absolute; right: 0; top: 0; pointer-events: none; user-select: none;
+  letter-spacing: -0.03em;
+}
+.section-head { position: relative; padding-bottom: 2.5rem; margin-bottom: 3rem; border-bottom: 1px solid var(--border); }
+
+/* CARDS */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  padding: 1.5rem 1.8rem; margin-bottom: 1rem; transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border-md); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+
+/* DIFFICULTY TAGS */
+.diff {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 0.25rem 0.6rem; display: inline-block; margin-bottom: 0.8rem;
+}
+.diff-beginner     { background: rgba(124,160,69,0.18); color: var(--green-lt);  border: 1px solid rgba(124,160,69,0.3); }
+.diff-intermediate { background: rgba(193,207,128,0.12); color: var(--accent);    border: 1px solid rgba(193,207,128,0.25); }
+.diff-advanced     { background: rgba(200,82,74,0.12);  color: #e08a85;          border: 1px solid rgba(200,82,74,0.25); }
+
+/* PERSONA SPLIT */
+.persona-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 1rem; }
+.persona-block { background: var(--bg-card); padding: 1rem 1.2rem; }
+.persona-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--green); margin-bottom: 0.5rem; display: block;
+}
+.persona-text { font-size: 0.88rem; line-height: 1.6; color: var(--fg-2); max-width: 100%; }
+@media (max-width: 600px) { .persona-split { grid-template-columns: 1fr; } }
+
+/* COPY BUTTON */
+.copy-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 0.5rem 1rem;
+  background: transparent; border: 1px solid var(--green);
+  color: var(--green-lt); cursor: pointer;
+  transition: background 0.15s, color 0.15s; margin-top: 1rem;
+}
+.copy-btn:hover { background: var(--green-dim); }
+.copy-btn.copied { background: var(--green-dim); border-color: var(--green-lt); }
+.copy-confirm {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--green-lt);
+  display: none; margin-top: 0.6rem; line-height: 1.6; max-width: 52ch;
+}
+.copy-confirm.visible { display: block; }
+
+/* EXPANDABLE */
+.expand-trigger {
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; user-select: none; padding: 0.2rem 0;
+}
+.expand-trigger:hover h3, .expand-trigger:hover h4 { color: var(--green-lt); }
+.expand-icon { font-size: 1.3rem; color: var(--green); flex-shrink: 0; transition: transform 0.25s; line-height: 1; }
+.expand-icon.open { transform: rotate(45deg); }
+.expand-body { display: none; padding-top: 1rem; }
+.expand-body.open { display: block; }
+
+/* AVOID BOX */
+.avoid-box {
+  border: 1px solid rgba(200,82,74,0.3); background: rgba(200,82,74,0.06);
+  padding: 1.5rem 1.8rem; margin: 2rem 0;
+}
+.avoid-box h4 { color: #e08a85; margin-bottom: 1rem; }
+.avoid-box ul { padding-left: 1.2rem; }
+.avoid-box li { margin-bottom: 0.5rem; font-size: 0.92rem; color: var(--fg-2); }
+
+/* INSTRUCTION BOX */
+.instruction-box {
+  background: var(--bg-alt); border: 1px solid var(--border-md);
+  padding: 1.4rem 1.6rem; margin: 1rem 0; border-left: 3px solid var(--green);
+}
+.instruction-box p, .instruction-box li { font-size: 0.87rem; line-height: 1.65; color: var(--fg-2); max-width: 100%; }
+.instruction-box ul { padding-left: 1.2rem; }
+.instruction-box li { margin-bottom: 0.4rem; }
+
+/* DECISION TREE */
+.dtree { margin: 2rem 0; }
+.dtree-node {
+  position: relative; padding: 1rem 1.4rem; margin-bottom: 0.5rem;
+  border: 1px solid var(--border); background: var(--bg-card);
+}
+.dtree-node.root { border-color: var(--green); background: var(--green-dim); }
+.dtree-children { margin-left: 2.5rem; border-left: 2px solid var(--border); padding-left: 1.5rem; margin-top: 0.5rem; }
+.dtree-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--green-lt); margin-bottom: 0.3rem; display: block;
+}
+
+/* STEP LIST */
+.step-list { counter-reset: steps; }
+.step {
+  display: grid; grid-template-columns: 3rem 1fr; gap: 1.4rem;
+  padding: 1.4rem 0; border-bottom: 1px solid var(--border); align-items: start;
+}
+.step:last-child { border-bottom: none; }
+.step-num {
+  font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400;
+  color: rgba(124,160,69,0.38); line-height: 1;
+}
+.step-content h4 { margin-bottom: 0.4rem; color: var(--fg); }
+.step-content p  { font-size: 0.92rem; color: var(--fg-2); max-width: 100%; }
+
+/* TABLES */
+.tier-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+.tier-table th, .tier-table td { padding: 0.8rem 1rem; text-align: left; border: 1px solid var(--border); font-size: 0.88rem; }
+.tier-table th {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; background: var(--bg-alt); color: var(--green-lt);
+}
+.tier-table td { color: var(--fg-2); }
+.tier-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* SKILL CARDS */
+.skill-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 0.75rem;
+}
+.skill-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; }
+.skill-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 0.2rem 0.55rem;
+  border: 1px solid var(--border-md); color: var(--fg-2); display: inline-block;
+}
+
+/* CONSULTANT CARDS */
+.consultant-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+.consultant-card {
+  background: var(--bg-alt); border: 1px solid var(--border-md);
+  padding: 2rem; display: flex; flex-direction: column; gap: 1rem;
+}
+.consultant-avatar {
+  width: 56px; height: 56px; background: var(--green-dim);
+  border: 1px solid var(--border-md); display: flex; align-items: center; justify-content: center;
+}
+.consultant-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+.tbd {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--fg-3);
+  padding: 0.25rem 0.7rem; border: 1px dashed var(--border-md); display: inline-block;
+}
+.book-btn {
+  display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase; padding: 0.6rem 1.2rem;
+  border: 1px solid var(--green); color: var(--green-lt); margin-top: auto;
+  opacity: 0.45; cursor: not-allowed;
+}
+
+/* CALLOUT */
+.callout {
+  background: var(--bg-alt); border-left: 3px solid var(--green);
+  padding: 1.2rem 1.5rem; margin: 1.5rem 0; font-size: 0.9rem; color: var(--fg-2);
+}
+.callout strong { color: var(--fg); }
+.callout.warning { border-left-color: var(--coral); }
+.callout.warning strong { color: #e08a85; }
+
+/* SIDE BY SIDE */
+.side-by-side { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin: 1.5rem 0; }
+.sbs-block { background: var(--bg-card); padding: 1.4rem 1.6rem; }
+.sbs-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em;
+  text-transform: uppercase; margin-bottom: 0.8rem; display: block;
+}
+.sbs-label.bad  { color: var(--coral); }
+.sbs-label.good { color: var(--green-lt); }
+@media (max-width: 600px) { .side-by-side { grid-template-columns: 1fr; } }
+
+/* CHECKLIST */
+.checklist { list-style: none; padding: 0; }
+.checklist li {
+  display: flex; gap: 0.8rem; padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--fg-2); align-items: flex-start;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li::before { content: '—'; color: var(--green); font-family: 'JetBrains Mono', monospace; flex-shrink: 0; margin-top: 0.05rem; }
+
+/* HUMAN GATE */
+.human-gate {
+  background: rgba(200,82,74,0.06); border: 1px solid rgba(200,82,74,0.25);
+  padding: 1rem 1.4rem; margin: 1.5rem 0; display: flex; gap: 1rem; align-items: flex-start;
+}
+.gate-icon { font-size: 1.3rem; flex-shrink: 0; }
+.gate-text { font-size: 0.9rem; color: var(--fg-2); }
+.gate-text strong { color: #e08a85; }
+
+/* ASSUMPTION */
+.assumption {
+  background: rgba(193,207,128,0.06); border: 1px dashed rgba(193,207,128,0.3);
+  padding: 1rem 1.4rem; margin: 1.5rem 0; font-size: 0.86rem; color: var(--fg-2);
+}
+.assumption strong { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* SCROLL PROGRESS */
+#progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--green); z-index: 200; width: 0%; transition: width 0.1s; }
+
+/* FOOTER */
+#site-footer { padding: 3rem 0; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <div>
+        AGR Partners
+        <span class="logo-sub">AI Onboarding Guide</span>
+      </div>
+    </div>
+    <nav id="main-nav">
+      <a href="#s1" class="nav-link">Use Cases</a>
+      <a href="#s2" class="nav-link">Submit</a>
+      <a href="#s3" class="nav-link">Solutions</a>
+      <a href="#s4" class="nav-link">Projects</a>
+      <a href="#s5" class="nav-link">Team</a>
+      <a href="#s6" class="nav-link">Skills</a>
+      <a href="#s7" class="nav-link">Cowork &amp; Code</a>
+      <a href="#s8" class="nav-link">Consultants</a>
+      <a href="#s9" class="nav-link">Wish List</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <span class="mono">AGR Partners</span>
+    </div>
+    <h1>Your team's<br><em>Claude onboarding</em><br>guide.</h1>
+    <p class="hero-lead">Everything you need to start using Claude at your company — use cases, copy-ready prompts, setup guides, and a direct line to your AGR consultant. Zero AI experience required.</p>
+    <div class="hero-tags">
+      <span class="tag green">Zero AI experience assumed</span>
+      <span class="tag">Click any section to explore</span>
+      <span class="tag">Copy prompts in one click</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 1 ═══════════════════ -->
+<section id="s1" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">1</div>
+      <span class="eyebrow">Section 1</span>
+      <h2>Use Case <em>Options</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">Start here. Browse by the work that costs you the most time today.</p>
+    </div>
+
+    <span class="eyebrow" style="margin-bottom:1.2rem;">Always-on starter workflows — visible to everyone</span>
+    <div class="card-grid" style="margin-bottom:2.5rem;">
+
+      <div class="card">
+        <span class="diff diff-beginner">Beginner</span>
+        <h3>Monthly Reporting</h3>
+        <p class="muted" style="font-size:0.9rem;margin:0.5rem 0 0.8rem;">Use Claude's form-fill and Excel skills to pull your numbers together automatically.</p>
+        <button class="copy-btn" onclick="copyPrompt(this,'report_monthly')">Copy Prompt</button>
+        <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+      </div>
+
+      <div class="card">
+        <span class="diff diff-beginner">Beginner</span>
+        <h3>Slide &amp; Deck Creation</h3>
+        <p class="muted" style="font-size:0.9rem;margin:0.5rem 0 0.8rem;">Build polished HTML presentations using the html-slides skill — no PowerPoint required.</p>
+        <button class="copy-btn" onclick="copyPrompt(this,'slides_create')">Copy Prompt</button>
+        <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+      </div>
+
+      <div class="card">
+        <span class="diff diff-intermediate">Intermediate</span>
+        <h3>Quarterly Summary Pack</h3>
+        <p class="muted" style="font-size:0.9rem;margin:0.5rem 0 0.8rem;">Combine the reporting form + deck skill into one complete quarterly output — numbers and narrative.</p>
+        <button class="copy-btn" onclick="copyPrompt(this,'quarterly_pack')">Copy Prompt</button>
+        <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Which of these costs you the most time today?</strong><br>
+      Click a category below to see beginner-friendly examples tailored to that area.
+    </div>
+
+    <div style="display:grid;gap:0.75rem;margin-top:1.5rem;">
+
+      <!-- Operations -->
+      <div class="card">
+        <div class="expand-trigger" onclick="toggleExpand(this)">
+          <div style="display:flex;align-items:center;gap:1.2rem;flex:1;min-width:0;">
+            <span class="mono" style="flex-shrink:0;">Operations</span>
+            <h4 style="color:var(--fg);font-weight:400;">Scheduling, SOPs, vendor comms, daily admin</h4>
+          </div>
+          <span class="expand-icon">+</span>
+        </div>
+        <div class="expand-body">
+          <div class="card-grid" style="margin-top:1rem;">
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-beginner">Beginner</span>
+              <h4>Draft a vendor communication</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Paste a messy email thread and ask Claude to draft a clear follow-up or response.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'vendor_comm')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-beginner">Beginner</span>
+              <h4>Summarize a long document or policy</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Upload a multi-page SOP or contract and get a plain-English summary of the key points.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'doc_summary')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-intermediate">Intermediate</span>
+              <h4>Build or update a standard operating procedure</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Describe a process out loud — Claude writes it as a clean, numbered SOP.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'sop_build')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Procurement -->
+      <div class="card">
+        <div class="expand-trigger" onclick="toggleExpand(this)">
+          <div style="display:flex;align-items:center;gap:1.2rem;flex:1;min-width:0;">
+            <span class="mono" style="flex-shrink:0;">Procurement</span>
+            <h4 style="color:var(--fg);font-weight:400;">RFQs, supplier comparisons, purchase analysis</h4>
+          </div>
+          <span class="expand-icon">+</span>
+        </div>
+        <div class="expand-body">
+          <div class="card-grid" style="margin-top:1rem;">
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-beginner">Beginner</span>
+              <h4>Compare supplier quotes</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Paste two or three quotes and ask Claude to compare them on price, terms, and flags.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'supplier_compare')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-intermediate">Intermediate</span>
+              <h4>Draft an RFQ or procurement brief</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Describe what you're buying and Claude writes a professional request-for-quote document.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'rfq_draft')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Service -->
+      <div class="card">
+        <div class="expand-trigger" onclick="toggleExpand(this)">
+          <div style="display:flex;align-items:center;gap:1.2rem;flex:1;min-width:0;">
+            <span class="mono" style="flex-shrink:0;">Customer Service</span>
+            <h4 style="color:var(--fg);font-weight:400;">Responses, complaints, follow-ups, FAQs</h4>
+          </div>
+          <span class="expand-icon">+</span>
+        </div>
+        <div class="expand-body">
+          <div class="card-grid" style="margin-top:1rem;">
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-beginner">Beginner</span>
+              <h4>Draft a customer response</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Paste a complaint or inquiry and get a professional, empathetic response in seconds.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'customer_response')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-intermediate">Intermediate</span>
+              <h4>Build a customer FAQ document</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">List the questions you hear most often and Claude writes a clean, shareable FAQ.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'faq_build')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supply Chain -->
+      <div class="card">
+        <div class="expand-trigger" onclick="toggleExpand(this)">
+          <div style="display:flex;align-items:center;gap:1.2rem;flex:1;min-width:0;">
+            <span class="mono" style="flex-shrink:0;">Supply Chain</span>
+            <h4 style="color:var(--fg);font-weight:400;">Alignment, tracking, inventory summaries</h4>
+          </div>
+          <span class="expand-icon">+</span>
+        </div>
+        <div class="expand-body">
+          <div class="card-grid" style="margin-top:1rem;">
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-beginner">Beginner</span>
+              <h4>Summarize an inventory or shipment log</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Upload or paste your inventory data and get a plain-English status summary.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'inventory_summary')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+            <div style="background:var(--bg-alt);border:1px solid var(--border);padding:1.2rem;">
+              <span class="diff diff-advanced">Advanced</span>
+              <h4>Automate a weekly supply chain status report</h4>
+              <p class="muted" style="font-size:0.88rem;margin:0.5rem 0 0.8rem;">Build a Project + Agent workflow that drafts a supply chain update from your data every week.</p>
+              <button class="copy-btn" onclick="copyPrompt(this,'sc_automate')">Copy Prompt</button>
+              <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end category expanders -->
+
+    <!-- AVOID THESE -->
+    <div class="avoid-box" style="margin-top:3rem;">
+      <h4>Avoid these common mistakes</h4>
+      <ul>
+        <li>Don't tell the AI what its role is — tell it what <em>your</em> role is and what you're trying to accomplish.</li>
+        <li>Always check the AI's answer. For high-stakes decisions, run a fact-checking pass in a separate conversation.</li>
+        <li>Turn off "share data with Claude" type settings in claude.ai → Settings → Privacy where confidentiality matters.</li>
+        <li>Add the custom instructions below to Claude's Settings → Custom Instructions. It makes every response more accurate and reliable.</li>
+      </ul>
+    </div>
+
+    <span class="eyebrow" style="margin-top:1.5rem;">Recommended: paste into Claude → Settings → Custom Instructions</span>
+    <div class="instruction-box">
+      <p>You are committed to truth and accuracy above everything else, including being helpful. A wrong answer delivered confidently is worse than no answer. Follow these rules in every response.</p>
+      <ul style="margin-top:0.8rem;">
+        <li><strong>Uncertainty:</strong> If you are not fully certain about something, say so clearly. Never state guesses as facts.</li>
+        <li><strong>Sources:</strong> Do not invent paper titles, author names, URLs, or book references. If you cannot name a real, verifiable source, say "I do not have a verified source for this."</li>
+        <li><strong>Statistics:</strong> Flag any number you are not 100% confident in. Say "approximately" and recommend I verify it from a primary source.</li>
+        <li><strong>Recent events:</strong> Remind me when the topic may have changed since your knowledge cutoff. Do not present outdated info as current.</li>
+        <li><strong>People and quotes:</strong> Never attribute a quote to a real person unless you are certain they said it.</li>
+        <li><strong>Code and technical:</strong> Never invent function names, library methods, or API syntax. If unsure, tell me to verify it in current docs.</li>
+        <li><strong>Logic gaps:</strong> Do not fill my context with assumptions. If something is unclear, ask to clarify before answering.</li>
+        <li><strong>Writing:</strong> When revising my drafts, avoid using em dashes unless I explicitly ask for them.</li>
+      </ul>
+    </div>
+    <button class="copy-btn" onclick="copyPrompt(this,'custom_instructions')">Copy Custom Instructions</button>
+    <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 2 ═══════════════════ -->
+<section id="s2" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">2</div>
+      <span class="eyebrow">Section 2</span>
+      <h2>Problem <em>Submission</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">Hit a wall? Log it. Claude takes the first pass — your AGR consultant gets escalated items.</p>
+    </div>
+
+    <div class="assumption">
+      <strong>Note —</strong> No fixed turnaround SLA is promised. Claude attempts to resolve your submission immediately in the same session. If it genuinely can't solve it, the submission is flagged for your AGR consultant. Confirm with your consultant if you need a different arrangement.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:2rem 0;" class="side-two-col">
+      <div>
+        <span class="eyebrow">How to submit</span>
+        <p style="font-size:0.92rem;color:var(--fg-2);margin-bottom:1.2rem;">Copy the prompt below and paste it into a new chat inside your shared Claude Project. Fill in each field as completely as you can.</p>
+        <ul class="checklist">
+          <li>Open your shared Claude Project</li>
+          <li>Start a new chat inside that project</li>
+          <li>Paste the submission prompt below and fill in the blanks</li>
+          <li>Claude will attempt to resolve it immediately</li>
+          <li>Urgent or unsolvable items are flagged for your consultant</li>
+        </ul>
+      </div>
+      <div>
+        <span class="eyebrow">How escalation works</span>
+        <p style="font-size:0.92rem;color:var(--fg-2);margin-bottom:1rem;">An AI first-pass triages every submission automatically — no manual gatekeeping required.</p>
+        <ul class="checklist">
+          <li>Straightforward tasks: Claude solves it in the same session</li>
+          <li>Complex builds: flagged as "needs a consultant"</li>
+          <li>Urgent items: flagged for priority review</li>
+          <li>Your consultant reviews flagged items and follows up</li>
+        </ul>
+      </div>
+    </div>
+
+    <span class="eyebrow">Submission template — copy this prompt</span>
+    <div class="instruction-box" style="margin-bottom:1rem;">
+      <p>I have a task I'd like help with. Here are the details:</p>
+      <ul style="margin-top:0.8rem;">
+        <li><strong>Task description:</strong> [Describe what you're trying to do or the problem you're facing]</li>
+        <li><strong>Current process:</strong> [How is this done today? What steps are involved?]</li>
+        <li><strong>Time spent:</strong> [How long does this take per occurrence, per week, or per month?]</li>
+        <li><strong>Tools involved:</strong> [What software, files, or systems does this touch? e.g., Excel, email, QuickBooks]</li>
+        <li><strong>Urgency:</strong> [Is there a deadline? How often does this come up?]</li>
+        <li><strong>Additional context:</strong> [Anything else I should know]</li>
+      </ul>
+      <p style="margin-top:0.8rem;">Please try to solve this now if you can. If the problem needs a technical build, a connector, or something you can't solve in this conversation, please say so clearly — my AGR consultant will take it from there.</p>
+    </div>
+    <button class="copy-btn" onclick="copyPrompt(this,'problem_submission')">Copy Submission Prompt</button>
+    <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+
+    <div style="margin-top:2.5rem;">
+      <span class="eyebrow">Example: vague vs. specific submission</span>
+      <div class="side-by-side">
+        <div class="sbs-block">
+          <span class="sbs-label bad">Vague — Claude can't help much</span>
+          <p style="font-size:0.9rem;color:var(--fg-2);">"Can AI help with reporting?"</p>
+          <p style="font-size:0.82rem;color:var(--fg-3);margin-top:0.8rem;">Too open-ended. Claude will ask clarifying questions and you'll go in circles.</p>
+        </div>
+        <div class="sbs-block">
+          <span class="sbs-label good">Specific — Claude can act</span>
+          <p style="font-size:0.9rem;color:var(--fg-2);"><strong>Task:</strong> Compiling the monthly ops report. <strong>Current process:</strong> I manually pull numbers from 4 spreadsheets into a Word doc, ~3 hours/month. <strong>Tools:</strong> Excel, Word, email. <strong>Urgency:</strong> Needed by the 5th business day each month.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 3 ═══════════════════ -->
+<section id="s3" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">3</div>
+      <span class="eyebrow">Section 3</span>
+      <h2>Potential <em>Solutions</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">A visual decision tree to route your problem to the right tool.</p>
+    </div>
+
+    <div class="dtree">
+      <div class="dtree-node root">
+        <span class="dtree-label">Start here</span>
+        <strong>What kind of problem do you have?</strong>
+      </div>
+      <div class="dtree-children">
+
+        <div class="dtree-node">
+          <span class="dtree-label">Path A</span>
+          <strong>A one-time or recurring task involving files, documents, or drafts</strong>
+          <p class="muted" style="font-size:0.88rem;margin-top:0.4rem;">Examples: writing, summarizing, analyzing a spreadsheet, drafting a letter</p>
+          <div class="dtree-children">
+            <div class="dtree-node" style="border-color:var(--green);">
+              <span class="dtree-label" style="color:var(--green-lt);">→ Use Cowork</span>
+              <p style="font-size:0.9rem;">Upload your files into Cowork, describe the task, and let Claude handle it. No technical setup required. Best for tasks you can complete in a single session.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dtree-node" style="margin-top:0.75rem;">
+          <span class="dtree-label">Path B</span>
+          <strong>A multi-step workflow that needs to run on its own — or repeat regularly</strong>
+          <p class="muted" style="font-size:0.88rem;margin-top:0.4rem;">Examples: weekly report generation, automated email triage, scheduled data pulls</p>
+          <div class="dtree-children">
+            <div class="dtree-node" style="border-color:var(--green);">
+              <span class="dtree-label" style="color:var(--green-lt);">→ Use a Claude Agent</span>
+              <p style="font-size:0.9rem;">An Agent runs steps in sequence, accesses connected tools, and executes on a schedule. Raise via Problem Submission — your consultant will help build it.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dtree-node" style="margin-top:0.75rem;">
+          <span class="dtree-label">Path C</span>
+          <strong>A persistent tool, dashboard, or internal app you want to build</strong>
+          <p class="muted" style="font-size:0.88rem;margin-top:0.4rem;">Examples: an internal reporting dashboard, a custom prompt library, a data tool for your team</p>
+          <div class="dtree-children">
+            <div class="dtree-node" style="border-color:var(--green);">
+              <span class="dtree-label" style="color:var(--green-lt);">→ Use Claude Code</span>
+              <p style="font-size:0.9rem;">Claude Code builds and iterates on technical files over multiple sessions. Requires a developer environment. See Section 7 for more.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dtree-node" style="margin-top:0.75rem;">
+          <span class="dtree-label">Path D</span>
+          <strong>The problem needs judgment, strategy, or Claude couldn't solve it in a session</strong>
+          <p class="muted" style="font-size:0.88rem;margin-top:0.4rem;">Examples: a security review, a new connector setup, a complex integration, or a genuinely novel process</p>
+          <div class="dtree-children">
+            <div class="dtree-node" style="border-color:var(--coral);">
+              <span class="dtree-label" style="color:#e08a85;">→ Escalate to an AGR Consultant</span>
+              <p style="font-size:0.9rem;">Submit via Problem Submission (Section 2) or book a session directly (Section 8). Your consultant will take it from there.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="margin-top:3rem;">
+      <span class="eyebrow">Worked example</span>
+      <div class="callout" style="margin-top:0;border-left-color:var(--green-lt);">
+        <strong>Reviewing contracts smarter:</strong> Upload your contracts into a Claude Project. Anyone on the team can then search and query contract details in plain English — "What's the notice period on the Rosewood agreement?" — instead of manually reading through every document. This is a Cowork + Project setup. No coding required.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 4 ═══════════════════ -->
+<section id="s4" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">4</div>
+      <span class="eyebrow">Section 4</span>
+      <h2>How to Make a <em>Project</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">A Claude Project is a persistent workspace — it remembers context between sessions and keeps your uploads in one place.</p>
+    </div>
+
+    <div class="callout">
+      <strong>Starter example:</strong> Set up your first project as a <em>Monthly Team Workflow Hub</em> — upload a team task reminder template and start building your first recurring workflow (a monthly board deck) inside it.
+    </div>
+
+    <div class="step-list" style="margin:2rem 0 3rem;">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h4>Go to claude.ai and click "Projects" in the left sidebar</h4>
+          <p>If you don't see it, you may be on a free plan. Projects are available on Claude Pro, Team, and Enterprise plans.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h4>Click "New Project" and give it a clear, specific name</h4>
+          <p>Name it something specific: "Monthly Board Deck" or "Ops Reporting" — not just "My Project." You'll likely have several eventually.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h4>Upload your starter kit files</h4>
+          <p>Don't overthink the first upload — start with what you already have. See the starter kit guidance below.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h4>Write a brief "context file" explaining what these files are for</h4>
+          <p>This is the most important step beginners skip. Add a plain-text note that says: "This project is for X. The files uploaded are: [file 1] which contains Y; [file 2] which contains Z." This makes Claude dramatically more useful in the project — without it, it treats your uploads as isolated documents.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h4>Start a chat inside the project and test it</h4>
+          <p>Ask Claude a question that requires knowing your uploaded files. If its answer is off, your context file probably needs more detail about how the files connect.</p>
+        </div>
+      </div>
+    </div>
+
+    <span class="eyebrow">What to put in your first project — start with these</span>
+    <div class="card-grid" style="margin-top:0.8rem;">
+      <div class="card">
+        <h4>A brand kit</h4>
+        <p style="font-size:0.88rem;color:var(--fg-2);margin-top:0.5rem;">Company name, logo usage notes, tone of voice, any formatting standards your company uses in external documents.</p>
+      </div>
+      <div class="card">
+        <h4>Previous examples or templates</h4>
+        <p style="font-size:0.88rem;color:var(--fg-2);margin-top:0.5rem;">Copies of reports, decks, or emails your team already produces. Claude will match the format and style — much better than starting from scratch.</p>
+      </div>
+      <div class="card">
+        <h4>A context / index file</h4>
+        <p style="font-size:0.88rem;color:var(--fg-2);margin-top:0.5rem;">A single document that explains what the other files are, how they connect, and what you're typically trying to accomplish in this project.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 5 ═══════════════════ -->
+<section id="s5" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">5</div>
+      <span class="eyebrow">Section 5</span>
+      <h2>How to Build Your Team's <em>AI Structure</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">The most detailed section — getting the structure right now saves you a messy migration later.</p>
+    </div>
+
+    <span class="eyebrow" style="margin-bottom:1rem;">Individual vs. shared use</span>
+    <div class="card-grid" style="margin-bottom:3rem;">
+      <div class="card">
+        <h4>Individual use</h4>
+        <p style="font-size:0.9rem;color:var(--fg-2);margin-top:0.6rem;">One person, their own claude.ai account, their own Projects and chat history. Best for personal drafting, analysis, and learning. What one person builds doesn't automatically benefit anyone else.</p>
+        <p style="font-size:0.85rem;color:var(--fg-3);margin-top:0.8rem;font-style:italic;">Use when: the work only matters to you, or you're just getting started.</p>
+      </div>
+      <div class="card">
+        <h4>Shared use (Team plan)</h4>
+        <p style="font-size:0.9rem;color:var(--fg-2);margin-top:0.6rem;">Multiple people on one account, with shared Projects, shared context, and shared outputs. Work one person does is visible to the team. Everyone benefits from a well-built Project instead of each person reinventing the wheel.</p>
+        <p style="font-size:0.85rem;color:var(--fg-3);margin-top:0.8rem;font-style:italic;">Use when: you have 3+ people who need to collaborate on Claude-assisted work.</p>
+      </div>
+    </div>
+
+    <span class="eyebrow" style="margin-bottom:1rem;">Roles: who gets which access</span>
+    <table class="tier-table" style="margin-bottom:1rem;">
+      <thead><tr><th>Role</th><th>What they can do</th><th>Who should have it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>User</strong></td><td>Create and use chats, create and work inside Projects, upload files.</td><td>Anyone actively using Claude for work tasks — most of your team.</td></tr>
+        <tr><td><strong>Admin</strong></td><td>Everything a User can do, plus: manage members, enable integrations, and access workspace settings.</td><td>The person managing the Claude subscription — usually the CEO or operations lead. You can have more than one.</td></tr>
+        <tr><td><strong>Owner</strong></td><td>Everything an Admin can do, plus: invite/remove other Admins and Owners, and modify roles.</td><td>The primary account holder or a trusted senior leader. Typically 1–2 people.</td></tr>
+        <tr><td><strong>Primary Owner</strong></td><td>Full organizational control — the only role that can transfer ownership or fully close the account.</td><td>One person per organization. Usually whoever set up the subscription.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout" style="margin-top:0;margin-bottom:3rem;border-left-color:var(--fg-3);">
+      There is no read-only "Viewer" role in Claude Team or Enterprise. All active users get full chat and Project access. If you only want someone to review outputs, share the exported file rather than adding them as a workspace member.
+    </div>
+
+    <span class="eyebrow" style="margin-bottom:1rem;">Plan tier decision guide</span>
+    <div class="callout" style="margin-top:0;">
+      <strong>AGR sponsors your first month of the Enterprise plan.</strong> After that, your company fully self-manages its own billing. AGR does not centrally provision or pay for seats on an ongoing basis.
+    </div>
+    <table class="tier-table" style="margin-bottom:3rem;">
+      <thead><tr><th>Plan</th><th>Best for</th><th>Approximate scale</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Free</strong></td><td>One person exploring. Limited usage, no Projects.</td><td>1 person, very light use</td></tr>
+        <tr><td><strong>Pro</strong></td><td>One power user who needs Projects, more usage, and priority access.</td><td>1 person, daily use</td></tr>
+        <tr><td><strong>Team</strong></td><td>2–9 people working together. Shared Projects, team billing, member roles. Best starting point for most teams.</td><td>3–9 people — typical year-one range</td></tr>
+        <tr><td><strong>Enterprise</strong></td><td>10+ users, SSO, admin controls, custom data retention, compliance features. The AGR-sponsored first month applies here.</td><td>Full office, 10+ people</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="font-size:0.88rem;margin-bottom:3rem;">Most teams start with Team (3–5 people in year one) and migrate to Enterprise as adoption grows. You don't need to start at Enterprise — it's easier to upgrade than to manage a plan that's too complex for your current needs.</p>
+
+    <span class="eyebrow" style="margin-bottom:1rem;">The "collaborate via AI" pattern</span>
+    <div class="card" style="border-color:var(--green);margin-bottom:3rem;">
+      <h3>Individual work feeds the team</h3>
+      <p style="color:var(--fg-2);margin-top:0.8rem;font-size:0.95rem;max-width:100%;">When one person uses Claude to build something — a report template, a brand-voice guide, an SOP prompt — and saves it to a shared Project, every team member benefits immediately. You're not just automating individual tasks; you're building institutional knowledge that compounds. Each time someone improves a prompt or template, everyone inherits that improvement.</p>
+      <p style="color:var(--fg-2);margin-top:0.8rem;font-size:0.95rem;max-width:100%;">The goal isn't "each person has their own AI assistant" — it's "the team has a shared AI brain that gets smarter over time."</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 6 ═══════════════════ -->
+<section id="s6" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">6</div>
+      <span class="eyebrow">Section 6</span>
+      <h2>How to Plug In and <em>Skill Up</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">Skills make Claude smarter at specific tasks. Connectors let it reach into your existing tools.</p>
+    </div>
+
+    <div class="card-grid" style="margin-bottom:2.5rem;">
+      <div class="card">
+        <h4>What is a skill?</h4>
+        <p style="font-size:0.9rem;color:var(--fg-2);margin-top:0.6rem;">A skill is a file (ending in <code style="font-family:monospace;font-size:0.85rem;color:var(--green-lt);">.skill</code>) you install into Claude Code or Cowork. It gives Claude a specific, repeatable capability — like building HTML slide decks or reading Excel files — that it doesn't have out of the box. Think of it like installing an app on your phone, except it runs inside Claude.</p>
+      </div>
+      <div class="card">
+        <h4>What is a connector (MCP)?</h4>
+        <p style="font-size:0.9rem;color:var(--fg-2);margin-top:0.6rem;">A connector (also called an MCP server) links Claude to an external tool — your email, calendar, Google Drive, or Slack. Once connected, Claude can read from and write to that tool on your behalf. It's the difference between Claude <em>knowing about</em> your calendar and Claude actually <em>seeing</em> it.</p>
+      </div>
+    </div>
+
+    <div class="human-gate">
+      <div class="gate-icon">⚠</div>
+      <div class="gate-text">
+        <strong>Human review required before connecting anything.</strong> Every connector — especially anything touching financials, email, or sensitive business data — must be reviewed by a human before it's activated. Sit down with your consultant and walk through what the connector can access and what permissions it needs. Only connect what you've explicitly reviewed.
+      </div>
+    </div>
+
+    <div style="margin:2.5rem 0 3rem;">
+      <span class="eyebrow">Default recommended connectors</span>
+      <div class="card-grid" style="margin-top:0.8rem;">
+        <div class="card"><h4>Microsoft 365</h4><p class="muted" style="font-size:0.88rem;margin-top:0.5rem;">Word, Excel, Outlook, SharePoint — for teams on the Microsoft ecosystem.</p></div>
+        <div class="card"><h4>Gmail &amp; Google Drive</h4><p class="muted" style="font-size:0.88rem;margin-top:0.5rem;">Email drafting, document reading, and Drive file access in one connector.</p></div>
+        <div class="card"><h4>Slack</h4><p class="muted" style="font-size:0.88rem;margin-top:0.5rem;">Read and post to Slack channels — useful for automated status updates or alerts.</p></div>
+        <div class="card"><h4>Calendar</h4><p class="muted" style="font-size:0.88rem;margin-top:0.5rem;">Read your schedule, draft meeting prep notes, or check availability.</p></div>
+      </div>
+    </div>
+
+    <span class="eyebrow">Starter skill pack — install all of these</span>
+
+    <div class="skill-card" style="margin-top:0.8rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;">
+        <div class="skill-name">docx</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <span class="skill-tag">Public Utility</span>
+          <span class="diff diff-beginner" style="margin:0;">Beginner</span>
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:var(--fg-2);">Read, create, and edit Microsoft Word documents from inside Claude. Essential for any office workflow that produces Word docs.</p>
+      <button class="copy-btn" onclick="copyPrompt(this,'skill_docx')">Copy Install Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+    <div class="skill-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;">
+        <div class="skill-name">xlsx</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <span class="skill-tag">Public Utility</span>
+          <span class="diff diff-beginner" style="margin:0;">Beginner</span>
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:var(--fg-2);">Read, create, and edit Excel spreadsheets. Works with the monthly reporting workflow in Section 1.</p>
+      <button class="copy-btn" onclick="copyPrompt(this,'skill_xlsx')">Copy Install Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+    <div class="skill-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;">
+        <div class="skill-name">pdf</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <span class="skill-tag">Public Utility</span>
+          <span class="diff diff-beginner" style="margin:0;">Beginner</span>
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:var(--fg-2);">Extract text and data from PDF files — contracts, invoices, reports — so Claude can work with them directly.</p>
+      <button class="copy-btn" onclick="copyPrompt(this,'skill_pdf')">Copy Install Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+    <div class="skill-card" style="border-color:var(--green);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;">
+        <div class="skill-name">html-slides</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <span class="skill-tag">AGR Recommended</span>
+          <span class="diff diff-intermediate" style="margin:0;">Intermediate</span>
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:var(--fg-2);">Build beautiful, polished HTML slide decks — the "beautiful deck making" workflow from Section 1. Produces browser-based presentations, not .pptx files. This is the skill that powers the Quarterly Summary deck workflow.</p>
+      <div class="assumption" style="margin:0.8rem 0;">
+        <strong>Note —</strong> The skill name in the build worksheet was listed as "html-ppt." This page uses <strong>html-slides</strong>, which matches the described capability (browser-based HTML decks). If you need real .pptx PowerPoint files instead, use the <strong>pptx</strong> skill below — the two are not interchangeable.
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this,'skill_html_slides')">Copy Install Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+    <div class="skill-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;">
+        <div class="skill-name">pptx</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <span class="skill-tag">Public Utility</span>
+          <span class="diff diff-intermediate" style="margin:0;">Intermediate</span>
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:var(--fg-2);">Create actual Microsoft PowerPoint files (.pptx). Use this if your stakeholders specifically need editable PowerPoint, not a browser-based deck.</p>
+      <button class="copy-btn" onclick="copyPrompt(this,'skill_pptx')">Copy Install Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+    <div class="skill-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;">
+        <div class="skill-name">skill-creator</div>
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <span class="skill-tag">Advanced</span>
+          <span class="diff diff-advanced" style="margin:0;">Advanced</span>
+        </div>
+      </div>
+      <p style="font-size:0.9rem;color:var(--fg-2);">Lets you (or your AGR consultant) build new custom skills for your company's specific workflows. Ships with extra scripts, agents, and reference files beyond the main SKILL.md — install the full package, not just the markdown. Licensed under Apache 2.0 (redistribution allowed; keep the LICENSE.txt with it and note any changes).</p>
+      <button class="copy-btn" onclick="copyPrompt(this,'skill_creator')">Copy Install Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 7 ═══════════════════ -->
+<section id="s7" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">7</div>
+      <span class="eyebrow">Section 7</span>
+      <h2>How to <em>Cowork &amp; Code</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">Two ways to work with Claude — one for everyone, one for builders.</p>
+    </div>
+
+    <div class="card-grid" style="margin-bottom:2.5rem;">
+      <div class="card" style="border-color:var(--green);">
+        <span class="diff diff-beginner">Start here — no setup needed</span>
+        <h3>Cowork</h3>
+        <p style="color:var(--fg-2);font-size:0.92rem;margin:0.8rem 0;max-width:100%;">A file-and-task based way to work with Claude. Upload documents, describe what you need, and work through it together in a conversation. Zero technical setup. No developer environment. Works in any browser.</p>
+        <ul class="checklist" style="margin-top:1rem;">
+          <li>Best for one-off or recurring tasks</li>
+          <li>Works with files: Excel, Word, PDFs, images</li>
+          <li>No install, no code, no developer needed</li>
+          <li>Each session is focused — starts fresh each time</li>
+        </ul>
+        <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border);">
+          <span class="eyebrow" style="margin-bottom:0.6rem;">Worked example</span>
+          <p style="font-size:0.88rem;color:var(--fg-2);max-width:100%;">Upload last month's sales spreadsheet and your report template. Say: "Using these files, fill in the monthly ops report for April." Claude reads the data, fills the template, and hands you a completed draft.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="diff diff-advanced">Your next step — for builders</span>
+        <h3>Claude Code</h3>
+        <p style="color:var(--fg-2);font-size:0.92rem;margin:0.8rem 0;max-width:100%;">A persistent, technical build environment. Claude Code works with actual files on your computer, writes and edits code across multiple sessions, and builds things that continue to exist after the session ends — dashboards, scripts, internal tools, custom skills.</p>
+        <ul class="checklist" style="margin-top:1rem;">
+          <li>Requires a developer environment (terminal, Node.js)</li>
+          <li>Persistent — the files it builds stay on your machine</li>
+          <li>Best for multi-session projects that need to be maintained</li>
+          <li>Not day-one homework for non-technical POCs</li>
+        </ul>
+        <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border);">
+          <span class="eyebrow" style="margin-bottom:0.6rem;">Worked example</span>
+          <p style="font-size:0.88rem;color:var(--fg-2);max-width:100%;">Build a small internal dashboard that pulls your weekly numbers from a shared spreadsheet and displays them in a simple web page you can share with your team. Requires some dev experience to set up — but once it's running, anyone can use it.</p>
+        </div>
+      </div>
+    </div>
+
+    <span class="eyebrow">Which should you use?</span>
+    <div class="callout" style="margin-top:0.5rem;">
+      <strong>Default to Cowork</strong> for anything that's a task or a deliverable — reports, documents, drafts, summaries, analysis. <strong>Reach for Claude Code</strong> only when you need something built once and used many times, or when you're working with a developer who can set up the environment.
+    </div>
+    <div class="callout" style="background:rgba(124,160,69,0.04);border-left-color:var(--fg-3);">
+      Roughly half of teams may have in-house dev talent already using Claude Code — but this varies significantly. If you don't have a developer on your team, Claude Code is worth knowing about but isn't required to get significant value from Claude. The use cases in Section 1 are all achievable with Cowork alone.
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 8 ═══════════════════ -->
+<section id="s8" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">8</div>
+      <span class="eyebrow">Section 8</span>
+      <h2>Consultancy <em>Availability</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">Your AGR consultants are here when Claude can't solve it alone.</p>
+    </div>
+
+    <div class="callout" style="margin-bottom:2.5rem;">
+      <strong>When to book vs. self-serve:</strong> Self-serve this guide for browsing use cases, copying prompts, and anything a single Claude session can finish. Book a session when you're ready to go deeper — a technical build, a connector setup, or turning your wish list into a real roadmap.
+    </div>
+
+    <div class="consultant-grid">
+      <div class="consultant-card">
+        <div class="consultant-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" fill="rgba(124,160,69,0.55)"/><path d="M4 24c0-5.5 4.5-9 10-9s10 3.5 10 9" stroke="rgba(124,160,69,0.55)" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <div>
+          <div class="consultant-name">Sarah Deng</div>
+          <div style="font-size:0.85rem;color:var(--fg-2);margin-top:0.2rem;">AI & Investment Strategy</div>
+        </div>
+        <p style="font-size:0.88rem;color:var(--fg-2);">AI adoption strategy, workflow design, and onboarding for AGR portfolio companies.</p>
+        <a href="https://calendly.com/sadeng-ucdavis/45min" target="_blank" rel="noopener" style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid var(--green);color:var(--green-lt);margin-top:auto;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(124,160,69,0.13)'" onmouseout="this.style.background='transparent'">Book a Session →</a>
+      </div>
+
+      <div class="consultant-card">
+        <div class="consultant-avatar">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" fill="rgba(124,160,69,0.55)"/><path d="M4 24c0-5.5 4.5-9 10-9s10 3.5 10 9" stroke="rgba(124,160,69,0.55)" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <div>
+          <div class="consultant-name">Ian Anderson</div>
+          <div style="font-size:0.85rem;color:var(--fg-2);margin-top:0.2rem;">AI Consultant</div>
+        </div>
+        <p style="font-size:0.88rem;color:var(--fg-2);">Technical builds, Claude Code projects, and systems integration for AGR portfolio companies.</p>
+        <a href="https://calendly.com/icanderson" target="_blank" rel="noopener" style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid var(--green);color:var(--green-lt);margin-top:auto;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(124,160,69,0.13)'" onmouseout="this.style.background='transparent'">Book a Session →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION 9 ═══════════════════ -->
+<section id="s9" class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-number">9</div>
+      <span class="eyebrow">Section 9</span>
+      <h2>Build Your <em>AI Wish List</em></h2>
+      <div class="coral-rule"></div>
+      <p class="muted">The most valuable session you'll have — a conversation with Claude to map out everything AI could do for your business, and a clear view of where to start.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem;" class="side-two-col">
+      <div>
+        <p style="font-size:1rem;color:var(--fg);line-height:1.75;max-width:100%;">You've seen what's possible. Now the question is: <em>what would make the biggest difference for your specific business?</em></p>
+        <p style="font-size:0.92rem;color:var(--fg-2);margin-top:1rem;max-width:100%;">The prompt below opens a structured Cowork session where Claude will ask you about your operations, surface the tasks that are best suited for AI, and give you honest feedback on which items are quick wins versus longer builds. By the end, you'll have a prioritized wish list — built with you, not handed to you.</p>
+        <p style="font-size:0.92rem;color:var(--fg-2);margin-top:1rem;max-width:100%;">Once it's ready, use the export prompt below to pull it into a clean Excel or Word file — shareable with your team or your AGR consultant before your first strategy session.</p>
+      </div>
+      <div style="background:var(--bg-alt);border:1px solid var(--border-md);padding:1.8rem;display:flex;flex-direction:column;gap:1rem;">
+        <span class="mono" style="color:var(--green);">What you'll walk away with</span>
+        <ul class="checklist">
+          <li>A list of AI opportunities specific to your business</li>
+          <li>Each item assessed: quick win, medium build, or longer project</li>
+          <li>A clear recommendation on where to begin</li>
+          <li>A shareable file ready to discuss with your consultant</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Step 1: Build the wish list -->
+    <div style="margin-bottom:2.5rem;">
+      <span class="eyebrow">Step 1 — Build your wish list with Claude</span>
+      <div class="instruction-box" style="margin-bottom:1rem;">
+        <p>I want to build an AI wish list for my business — a prioritized map of everything AI could do for us, with honest guidance on where to start.</p>
+        <p style="margin-top:0.8rem;">My company: [describe your business in 2–3 sentences — what you do, how many people, what stage you're at]</p>
+        <p style="margin-top:0.8rem;">Please guide me through this as a conversation, not a form. Start by asking me about the parts of my business that take the most time or feel the most repetitive. Then help me shape each idea into a clear wish-list item. For each item, give me your honest assessment: is this a quick win (achievable in a single Cowork session), a medium build (needs a Project and a few sessions), or a longer project (requires a developer or a custom integration)?</p>
+        <p style="margin-top:0.8rem;">At the end, summarize everything into a prioritized list with your recommendation on which 1–2 items to tackle first and why. Format the final list clearly so I can copy or export it.</p>
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this,'wish_list_build')">Copy Wish List Builder Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+    <!-- Step 2: Export -->
+    <div style="margin-bottom:2.5rem;">
+      <span class="eyebrow">Step 2 — Export your wish list to Excel or Word</span>
+      <p style="font-size:0.9rem;color:var(--fg-2);margin-bottom:1rem;">Once you've built your wish list in the same Claude session, paste this prompt to export it as a clean, shareable file.</p>
+      <div class="instruction-box" style="margin-bottom:1rem;">
+        <p>Please export the wish list we just built into a clean, shareable document. I'd like two versions:</p>
+        <ul style="margin-top:0.8rem;">
+          <li><strong>Excel version:</strong> One row per wish-list item. Columns: Item, Description, Effort Level (Quick Win / Medium Build / Longer Project), Recommended Start (Yes / Later), Notes.</li>
+          <li><strong>Word/doc version:</strong> A one-page summary with a brief intro paragraph, followed by the prioritized wish list. Professional formatting, suitable for sharing with a leadership team or external consultant.</li>
+        </ul>
+        <p style="margin-top:0.8rem;">Use the xlsx skill for the Excel file and the docx skill for the Word file. If those skills aren't installed, generate the Excel as a formatted CSV and the Word version as clean plain text I can paste into a document.</p>
+      </div>
+      <button class="copy-btn" onclick="copyPrompt(this,'wish_list_export')">Copy Export Prompt</button>
+      <div class="copy-confirm">Copied. Paste this into a new Claude chat — or, if it's a skill, paste it into Cowork or Claude Code to install it yourself.</div>
+    </div>
+
+    <!-- CTA -->
+    <div class="card" style="border-color:var(--green);padding:2rem 2.2rem;">
+      <h3 style="margin-bottom:0.8rem;">Ready to turn your list into a plan?</h3>
+      <p style="font-size:0.95rem;color:var(--fg-2);max-width:100%;">Share your exported wish list with Sarah or Ian before your first session. What looks complex on paper is often faster than you think — and they'll help you sequence it so the first win lands quickly.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;">
+        <a href="https://calendly.com/sadeng-ucdavis/45min" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid var(--green);color:var(--green-lt);text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(124,160,69,0.13)'" onmouseout="this.style.background='transparent'">Book with Sarah →</a>
+        <a href="https://calendly.com/icanderson" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid var(--green);color:var(--green-lt);text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(124,160,69,0.13)'" onmouseout="this.style.background='transparent'">Book with Ian →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer id="site-footer">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+    <div style="font-family:'Playfair Display',serif;font-size:0.95rem;color:var(--fg-2);">AGR Partners <span style="color:var(--fg-3);">— AI Onboarding Guide</span></div>
+    <div class="mono" style="color:var(--fg-3);">For internal use only</div>
+  </div>
+</footer>
+
+
+<script>
+// ── CONFIG — fill in consultant info here ─────────────
+const CONSULTANTS = [
+  { name: "TBD", calendlyUrl: null, specialty: "TBD" },
+  { name: "TBD", calendlyUrl: null, specialty: "TBD" }
+];
+
+// ── PROMPT LIBRARY ────────────────────────────────────
+const PROMPTS = {
+  report_monthly: `I need help building a monthly operations report. Here's my situation:
+
+My role: [describe your role — e.g., Operations Manager, Finance Lead]
+The report covers: [e.g., sales numbers, headcount, production output, expenses]
+Current process: I manually pull numbers from [describe your spreadsheets/sources] and put them into [Word/Excel/email].
+This takes me roughly [X hours] each month.
+
+Please help me build a faster reporting process. Start by asking what data sources I'm working from, then suggest the most efficient workflow — either a prompt I can reuse, a template, or a step-by-step Cowork session.`,
+
+  slides_create: `I need to create a presentation. Here are the details:
+
+Topic / purpose: [e.g., Monthly board update, Q3 results, Team all-hands]
+Audience: [e.g., Board of directors, operations team, investors]
+Key points I want to cover:
+1. [point 1]
+2. [point 2]
+3. [point 3]
+Tone: [professional / casual / formal]
+Approximate length: [X slides]
+
+Please help me build this. If you have the html-slides skill installed, use it to create a polished HTML slide deck. Otherwise, start by outlining the structure and I'll tell you how to proceed.`,
+
+  quarterly_pack: `I want to create a complete quarterly summary package — both the numbers and the narrative. Here's what I have:
+
+Company: [your company name]
+Quarter: [e.g., Q2 2026]
+What I want to deliver: [e.g., A report + a board deck]
+Data I have available: [describe your spreadsheets, reports, or data sources]
+Key metrics to highlight: [list 3–5 key metrics or performance areas]
+Any important context: [wins, challenges, notable changes this quarter]
+
+Step 1: Help me organize and clean up my quarterly numbers.
+Step 2: Once that's done, we'll build the deck using the html-slides skill.
+
+Let's start with step 1 — ask me any clarifying questions you need.`,
+
+  vendor_comm: `I need to write a professional response to a vendor/supplier communication.
+
+My role: [describe your role]
+The situation: [brief description — e.g., "They delivered short on our last order and I need to address it professionally"]
+What I need to communicate: [e.g., "I want a credit on the next invoice and an explanation for the shortage"]
+Tone I want: [e.g., firm but professional, friendly but clear]
+
+Please paste or describe the original message below, and draft a clear, professional response.`,
+
+  doc_summary: `I need to understand the key points of a document before I can act on it.
+
+Document type: [e.g., supplier contract, government regulation, lease agreement, vendor terms]
+What I'm trying to decide: [e.g., whether to sign it, what the key obligations are, what I need to flag for my lawyer]
+
+I'll paste or upload the document. Please give me:
+1. A plain-English summary of what this document says
+2. The 5 most important things I need to know
+3. Any terms, clauses, or language I should flag as unusual or risky
+
+Here's the document: [paste text or upload file]`,
+
+  sop_build: `I want to turn a process into a written Standard Operating Procedure (SOP).
+
+Process name: [e.g., "Monthly invoice processing", "New employee onboarding checklist"]
+Who does this process: [e.g., "Our office admin", "Me and one other person"]
+How often it runs: [daily / weekly / monthly / as-needed]
+
+I'm going to describe the steps as I know them — even roughly. Please turn my description into a clean, numbered SOP that someone else could follow. Ask clarifying questions as you go.
+
+Here's the rough process: [describe the steps as you know them]`,
+
+  supplier_compare: `I need to compare supplier quotes or proposals. I'll paste the details below.
+
+What I'm buying: [describe the product or service]
+My priorities in order of importance:
+1. [e.g., Total cost]
+2. [e.g., Payment terms]
+3. [e.g., Lead time]
+
+Please compare the options on these dimensions, flag anything unusual or risky in the terms, and give me a clear recommendation with your reasoning.
+
+Here are the quotes/options: [paste quote details]`,
+
+  rfq_draft: `I need to draft a Request for Quote (RFQ) to send to suppliers.
+
+What I'm procuring: [describe what you're buying — product, service, etc.]
+Quantity / scope: [how much, how often, for how long]
+Key specifications or requirements: [any technical specs, certifications, delivery requirements]
+Timeline: [when do I need quotes back / when do I need delivery]
+My company: [your company name and brief description]
+
+Please draft a professional RFQ document I can send to multiple suppliers. Make it clear, specific, and easy for suppliers to respond to.`,
+
+  customer_response: `I need help drafting a professional response to a customer message.
+
+Context: [briefly describe the situation — e.g., "A long-time customer is upset about a late delivery"]
+What the customer said: [paste the customer's message, or describe it]
+What I want to communicate: [e.g., "Acknowledge the issue, apologize, explain what happened, offer a remedy"]
+Tone: [e.g., empathetic and professional / firm but fair]
+
+Please draft a response that's clear, professional, and appropriate for the situation. I'll review and edit before sending.`,
+
+  faq_build: `I want to build a FAQ document for our customers / team.
+
+Who this FAQ is for: [customers / team members / new employees / etc.]
+Topic area: [e.g., delivery and returns, our payment terms, how to use our portal]
+
+Here are the questions we get most often (with rough answers where I have them):
+
+Q: [question 1]
+A: [rough answer, or "TBD"]
+
+Q: [question 2]
+A: [rough answer, or "TBD"]
+
+[Continue the list]
+
+Please turn these into a polished, easy-to-read FAQ document. For any questions where my answer is rough or incomplete, ask me for more detail.`,
+
+  inventory_summary: `I need a plain-English summary of my inventory situation.
+
+What I'm tracking: [e.g., raw materials, finished goods, packaging supplies]
+What I care most about: [e.g., stock-outs, overstocking, slow movers, items approaching expiry]
+
+I'll paste my inventory data below. Please give me:
+1. A clear summary of what's low, what's fine, and what's overstocked
+2. Items I should flag for reorder now
+3. Anything unusual I should pay attention to
+
+Here's the data: [paste your inventory table or spreadsheet data]`,
+
+  sc_automate: `I want to automate a weekly supply chain status report. This is an advanced workflow — I'll need help thinking through the setup.
+
+What the report should cover: [e.g., stock levels, pending orders, supplier lead times, any exceptions]
+Data sources involved: [e.g., spreadsheets in Drive, an inventory system, email from suppliers]
+Who receives it: [e.g., me, my operations team, my board]
+Preferred format: [e.g., email summary, Excel file, HTML dashboard]
+
+Please help me think through how to build this as an automated workflow. Start by asking about my data sources and what access Claude has to them. I may need to involve my AGR consultant for the technical setup.`,
+
+  problem_submission: `I have a task I'd like help with. Here are the details:
+
+Task description: [Describe what you're trying to do or the problem you're facing]
+Current process: [How is this done today? What steps are involved?]
+Time spent: [How long does this take per occurrence, per week, or per month?]
+Tools involved: [What software, files, or systems does this touch? e.g., Excel, email, QuickBooks]
+Urgency: [Is there a deadline? How often does this come up?]
+Additional context: [Anything else I should know]
+
+Please try to solve this now if you can. If the problem needs a technical build, a connector, or something you can't solve in this conversation, please say so clearly — my AGR consultant will take it from there.`,
+
+  custom_instructions: `You are committed to truth and accuracy above everything else, including being helpful. A wrong answer delivered confidently is worse than no answer. Follow these rules in every response.
+Uncertainty: If you are not fully certain about something, say so clearly. Use phrases like "I'm not certain but you may want to verify this." Never state guesses as facts.
+Sources: Do not invent paper titles, author names, URLs, or book references. If you cannot name a real, verifiable source with an existing domain reference, say "I do not have a verified source for this."
+Statistics: Flag any number you are not 100% confident in. Say "approximately" and recommend I verify it from a primary source.
+Recent events: Remind me when the topic may have changed since your knowledge cutoff. Do not present outdated info as current.
+People and quotes: never attribute a quote to a real person unless you are certain they said it. If unsure, say "I cannot confirm this quote is accurate."
+Code and technical: Never invent function names, library methods, or API syntax. If unsure whether a function exists, tell me to verify it in current docs.
+Logic gaps: Do not fill my context with assumptions. If something is unclear, ask to clarify in the question before answering.
+Writing related tasks: when revising my drafts or writing, avoid using em dashes unless I explicitly ask for them.`,
+
+  skill_docx: `Please install the docx skill. I'll use it to read, create, and edit Microsoft Word documents.
+
+If you have access to the skill file, install it now. If not, please explain how I can get and install the docx skill from the Anthropic skill library inside Claude Code or Cowork.`,
+
+  skill_xlsx: `Please install the xlsx skill. I'll use it to work with Microsoft Excel spreadsheets — reading data, creating reports, and updating files.
+
+If you have access to the skill file, install it now. If not, please explain how I can get and install the xlsx skill from the Anthropic skill library inside Claude Code or Cowork.`,
+
+  skill_pdf: `Please install the pdf skill. I'll use it to extract and work with text from PDF documents.
+
+If you have access to the skill file, install it now. If not, please explain how I can get and install the pdf skill from the Anthropic skill library inside Claude Code or Cowork.`,
+
+  skill_html_slides: `Please install the html-slides skill. I'll use it to build polished, professional HTML slide decks and presentations directly from Claude.
+
+If you have access to the skill file, install it now. If not, please explain how I can get and install the html-slides skill from the Anthropic skill library inside Claude Code or Cowork.`,
+
+  skill_pptx: `Please install the pptx skill. I'll use it to create real Microsoft PowerPoint (.pptx) files.
+
+If you have access to the skill file, install it now. If not, please explain how I can get and install the pptx skill from the Anthropic skill library inside Claude Code or Cowork.`,
+
+  skill_creator: `Please install the skill-creator skill. I'll use it to build custom skills for my company's specific workflows.
+
+Important: this skill ships with extra scripts, agents, and reference files beyond the main SKILL.md — please install the full package, not just the markdown file. It is licensed under Apache 2.0, so redistribution is allowed as long as the LICENSE.txt is kept with the package.
+
+If you have access to the skill files, install them now. If not, please explain how I can get and install the skill-creator skill.`,
+
+  wish_list_build: `I want to build an AI wish list for my business — a prioritized map of everything AI could do for us, with honest guidance on where to start.
+
+My company: [describe your business in 2–3 sentences — what you do, how many people, what stage you're at]
+
+Please guide me through this as a conversation, not a form. Start by asking me about the parts of my business that take the most time or feel the most repetitive. Then help me shape each idea into a clear wish-list item. For each item, give me your honest assessment: is this a quick win (achievable in a single Cowork session), a medium build (needs a Project and a few sessions), or a longer project (requires a developer or a custom integration)?
+
+At the end, summarize everything into a prioritized list with your recommendation on which 1–2 items to tackle first and why. Format the final list clearly so I can copy or export it.`,
+
+  wish_list_export: `Please export the wish list we just built into a clean, shareable document. I'd like two versions:
+
+Excel version: One row per wish-list item. Columns: Item, Description, Effort Level (Quick Win / Medium Build / Longer Project), Recommended Start (Yes / Later), Notes.
+
+Word/doc version: A one-page summary with a brief intro paragraph, followed by the prioritized wish list. Professional formatting, suitable for sharing with a leadership team or external consultant.
+
+Use the xlsx skill for the Excel file and the docx skill for the Word file. If those skills aren't installed, generate the Excel as a formatted CSV and the Word version as clean plain text I can paste into a document.`
+};
+
+// ── COPY PROMPT ──────────────────────────────────────
+function copyPrompt(btn, key) {
+  const text = PROMPTS[key];
+  if (!text) return;
+  const confirm = btn.nextElementSibling;
+
+  function onCopied() {
+    btn.classList.add('copied');
+    btn.textContent = 'Copied ✓';
+    confirm.classList.add('visible');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      if (key.startsWith('skill_'))          btn.textContent = 'Copy Install Prompt';
+      else if (key === 'custom_instructions')  btn.textContent = 'Copy Custom Instructions';
+      else if (key === 'problem_submission')   btn.textContent = 'Copy Submission Prompt';
+      else if (key === 'wish_list_build')      btn.textContent = 'Copy Wish List Builder Prompt';
+      else if (key === 'wish_list_export')     btn.textContent = 'Copy Export Prompt';
+      else                                     btn.textContent = 'Copy Prompt';
+    }, 2500);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onCopied).catch(() => fallbackCopy(text, btn, confirm, onCopied));
+  } else {
+    fallbackCopy(text, btn, confirm, onCopied);
+  }
+}
+
+function fallbackCopy(text, btn, confirm, onCopied) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); onCopied(); }
+  catch(e) {
+    confirm.textContent = 'Could not copy automatically. Please select and copy the text above manually.';
+    confirm.classList.add('visible');
+  }
+  document.body.removeChild(ta);
+}
+
+// ── EXPAND / COLLAPSE ────────────────────────────────
+function toggleExpand(trigger) {
+  const icon = trigger.querySelector('.expand-icon');
+  const body = trigger.nextElementSibling;
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+}
+
+// ── SCROLL PROGRESS ──────────────────────────────────
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  if (total > 0) progressBar.style.width = (scrolled / total * 100) + '%';
+});
+
+// ── ACTIVE NAV ───────────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (active) {
+        active.classList.add('active');
+        active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+  });
+}, { rootMargin: '-35% 0px -60% 0px' });
+sections.forEach(s => io.observe(s));
+
+// ── RESPONSIVE GRID COLLAPSE ─────────────────────────
+if (window.innerWidth < 640) {
+  document.querySelectorAll('.side-two-col').forEach(el => {
+    el.style.gridTemplateColumns = '1fr';
+  });
+}
+</script>
+</body>
+</html>
